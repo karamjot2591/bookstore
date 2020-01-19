@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] Book Store</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/myStyle.css" />
+        <link rel="stylesheet" href="~/css/animate.css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-latest.js"></script>
+
+        <script src="https://code.jquery.com/jquery-latest.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script type="text/javascript" language="javascript">
+            $(document).ready(function () {
+                var count = 0;
+                $.get("/ShoppingCart/ShoppingCartItem", function (data) {
+                    $("#item_count").text(data);
+                    count = data;
+                });
+                $(".glyphicon-shopping-cart").click(function () {
+                    var itemID = $(this).attr('id');
+                    $.post("/ShoppingCart/AddToCart", { "id": itemID })
+                    count += 1;
+                    $("#item_count").text(count);
+                })
+            })
+        </script>
+
+        <script type="text/javascript">
+            function getFileName() {
+                var thefile = document.getElementById('fileUpload');
+                var inputF = document.getElementById('input_image');
+
+
+                inputF.value = getFile(thefile.value);
+            }
+
+            function getFile(filePath) {
+                return filePath.substr(filePath.lastIndexOf('\\') + 1);
+            }
+        </script>
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/animate.css" />
+        <link rel="stylesheet" href="~/css/myStyle.css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-latest.js"></script>
+
+        <script src="https://code.jquery.com/jquery-latest.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script type="text/javascript" language="javascript">
+            $(document).ready(function () {
+                var count = 0;
+                $.get("/karam02/ContosoUniversity/ShoppingCart/ShoppingCartItem", function (data) {
+                    $("#item_count").text(data);
+                    count = data;
+                });
+                $(".glyphicon-shopping-cart").click(function () {
+                    var itemID = $(this).attr('id');
+                    $.post("/karam02/ContosoUniversity/ShoppingCart/AddToCart", { "id": itemID })
+                    count += 1;
+                    $("#item_count").text(count);
+                })
+            })
+        </script>
+
+        <script type="text/javascript">
+            function getFileName() {
+                var thefile = document.getElementById('fileUpload');
+                var inputF = document.getElementById('input_image');
+
+
+                inputF.value = getFile(thefile.value);
+            }
+
+            function getFile(filePath) {
+                return filePath.substr(filePath.lastIndexOf('\\') + 1);
+            }
+        </script>
+    </environment>
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top bg-primary">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">
+                    <img style="max-height:32px" src="~/images/images/QBLogo.png" alt="Book Store" />
+                </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Book">Books</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact Us</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="About">About Us</a></li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Admin
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a asp-area="" asp-controller="AdminApplicationUser" asp-action="Index">Account Mangement</a></li>
+                                <li><a asp-area="" asp-controller="Books" asp-action="Index">Books Mangement</a></li>
+                                <li><a asp-area="" asp-controller="Suppliers" asp-action="Index">Suppliers Mangement</a></li>
+                                <li><a asp-area="" asp-controller="Orders" asp-action="Index">Orders Management</a></li>
+                                <li><a asp-area="" asp-controller="Categories" asp-action="Index">Categories Management</a></li>
+                            </ul>
+                        </li>
+
+                    }
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a asp-area="" asp-controller="ShoppingCart" asp-action="Default"><span id="item_count">0 </span><span class="glyphicon glyphicon-shopping-cart"></span>Cart</a>
+                    </li>
+                </ul>
+                @await Html.PartialAsync("_LoginPartial")
+
+            </div>
+        </div>
+    </nav>
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-left">
+
+                <p class="footer-links">
+                    <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    ·
+                    <a asp-area="" asp-controller="Home" asp-action="Index">books</a>
+                    ·
+                    <a asp-area="" asp-controller="Home" asp-action="About">About</a>
+                    ·
+                    <a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
+                </p><img src="~/images/images/QBLogo.png" width="100" alt="Quality Books" />
+                <br/>
+                <p class="footer-copyright">&copy; 2019 - Quality Books</p>
+            </div>
+            <div class="footer-center">
+                <span> <strong>Address</strong></span>
+                <div>
+                    <i class="fa fa-map-marker"></i>
+                    <p><span>Building 183, 139 Carrington Road </span>Mt Albert, Auckland, New Zealand</p>
+                </div>
+                <div>
+                    <i class="fa fa-phone"></i>
+                    <p>022538000</p>
+                </div>
+                <div>
+                    <i class="fa fa-envelope"></i>
+                    <p><a href="mailto:support@wallstreetwines.co.nz">support@qualitybooks.co.nz</a></p>
+                </div>
+            </div>
+            <div class="footer-right">
+                <p class="footer-designer">
+                    <span>Designer</span>
+                    Karamjot <br /> SID: 1519254
+                </p>
+                <br>
+
+            </div>
+        </div>
+    </footer>  <!-- footer end-->
+
+
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
